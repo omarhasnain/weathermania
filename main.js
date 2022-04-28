@@ -29,23 +29,24 @@ cities.forEach((city) => {
 
 
 // add submit event to the form
-form.addEventListener('submit', (e) => {
-    // Throw an alert if the input field/search box is empty
-    if(search.Value.length == 0){
-        alert('Please write in a city name');
-    }else{
-        // change to the written city from the default one
-        cityInput = search.value;
-        // function that fetaches and displays all the data from the Weather API
-        fetchWeatherData();
-        // remove all text from the input field
-        search.value = "";
-        // fade out the app (simple animation)
-        app.style.opacity = "0";
-    }
 
+
+form.addEventListener('submit', (e) => {
     // Prevents the default behaviour of the form
     e.preventDefault();
+     // Throw an alert if the input field/search box is empty
+    if(search.value === ""){
+        alert('Please write in a city name');
+    } else{
+        cityInput = search.value;
+         // function that fetaches and displays all the data from the Weather API
+        fetchWeatherData();
+         // remove all text from the input field
+        search.value = "";
+         // fade out the app (simple animation)
+        app.style.opacity = "0";
+    }
+    
 });
 })
 

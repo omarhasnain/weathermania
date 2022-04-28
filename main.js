@@ -4,19 +4,20 @@ const dateOutput = document.querySelector('.date');
 const timeOutput = document.querySelector('.time');
 const conditionOutput = document.querySelector('.condition');
 const nameOutput = document.querySelector('.name');
-const iconOutput = document.querySelector('.icon');
+const icon = document.querySelector('.icon');
 const cloudOutput = document.querySelector('.cloud');
 const humidityOutput = document.querySelector('.humidity');
 const windOutput = document.querySelector('.wind');
-const form = document.querySelector('.locationInput');
+const form = document.getElementById('locationInput');
 const search = document.querySelector('.search');
-const cities = document.querySelector('.city');
+const btn = document.querySelector('.submit');
+const cities = document.querySelectorAll('.city');
 
 // default city when the page loads
 let cityInput = "London";
 
 // add click event to each city in the panel
-Object.keys(cities).forEach(function(cityInput){
+cities.forEach((city) => {
     city.addEventListener('click', (e) => {
         // Change from default city to the clicked one
         cityInput = e.target.innerHTML;
@@ -25,12 +26,12 @@ Object.keys(cities).forEach(function(cityInput){
         // fadeout the app simple animation
         app.style.opacity = "0";
     });
-});
+
 
 // add submit event to the form
 form.addEventListener('submit', (e) => {
     // Throw an alert if the input field/search box is empty
-    if(search.ariaValueMax.length == 0){
+    if(search.Value.length == 0){
         alert('Please write in a city name');
     }else{
         // change to the written city from the default one
@@ -46,6 +47,7 @@ form.addEventListener('submit', (e) => {
     // Prevents the default behaviour of the form
     e.preventDefault();
 });
+})
 
 // function that returns a day of the week
 function dayOfTheWeek(day, month, year){
@@ -61,9 +63,10 @@ function dayOfTheWeek(day, month, year){
     return weekday[new Date(`$(day).$(month).$(year)`).getDay()];
 };
 
-// function that fetaches and displays all the data from the Weather API
+// function that fetches and displays all the data from the Weather API
 function fetchWeatherData() {
-    fetch(`http://api.weatherapi.com/v1/current.json?key=a02b8dad1113418581b204712222604=${cityInput}`)
+    // fetch(`http://api.weatherapi.com/v1/current.json?key=a02b8dad1113418581b204712222604&q=London&aqi=yes `)
+    fetch(`http://api.weatherapi.com/v1/current.json?key=cef78a0702554ef3a2f92524222804&q=London=${cityInput}`)
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -71,16 +74,16 @@ function fetchWeatherData() {
         temp.innerHTML = data.current.temp_c + "&#176";
         conditionOutput.innerHTML = data.current.condition.text;
 
-        const date = date.location.localtime;
+        const date = data.location.localtime;
         const y = parseInt(date.substr(0, 4));
-        const m = arseInt(date.substr(5, 2));
-        const d = arseInt(date.substr(8, 2));
-        const time = date.substr(li);
+        const m = parseInt(date.substr(5, 2));
+        const d = parseInt(date.substr(8, 2));
+        const time = date.substr(11);
 
         dateOutput.innerHTML = `${dayOfTheWeek(d,m,y)} ${d}, ${m} ${y}`;
         timeOutput.innerHTML = time;
 
-        nameOutput.innerHTML = date.location.name;
+        nameOutput.innerHTML = data.location.name;
 
         const iconId = data.current.condition.icon.substr("//cdn.weatherapi.com/weather/64x64/".length);
 
@@ -142,14 +145,14 @@ function fetchWeatherData() {
             code == 1246 ||
             code == 1249 ||
             code == 1252 
-        ) {
+        ){
             app.style.backgroundImage = `
             url(./images/wallpaper/${timeOfDay}/rainy.jpg)`;
             btn.style.background = "#647d75";
             if(timeOfDay == "night") {
                 btn.style.background = "#325c80";
             }
-            else {
+        }  else {
                 app.style.backgroundImage = `url(./images/wallpaper/${timeOfDay}/snowy.jpg)`;
                 btn.style.background = "#4d72aa";
                 if (timeOfDay == "night") {
@@ -158,13 +161,14 @@ function fetchWeatherData() {
             }
             app.style.opacity = "1";
 
-        }  
+        
         // *********
     })
-   .catch(() => {
-        alert('City not found. Please try again');
-        app.style.opacity = "1";
-    });
+    .catch(err=>console.log(err));
+//    .catch(() => {
+//         alert('City not found. Please try again');
+//         app.style.opacity = "1";
+//     });
 }
 fetchWeatherData();
 app.style.opacity = "1";

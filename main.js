@@ -94,7 +94,7 @@ function fetchWeatherData(cityInput) {
         app.style.backgroundImage = `url(./images/wallpaper/${timeOfDay}/clear.jpg)`;
         btn.style.background = "#e5ba92";
         if (timeOfDay == "night") {
-          btn.style.background = "#181e27";
+          btn.style.background = "#7ef8f8";
         }
       } else if (
         code == 1003 ||
@@ -148,18 +148,16 @@ function fetchWeatherData(cityInput) {
           }
         }
         app.style.opacity = "1";
-
       }
-
-        
-        // *********
     })
     // .catch(err=>console.log(err));
-   .catch(() => {
-        alert('City not found. Please try again');
+    .catch((err) => {
+        console.log(err.message);
+  alert("City not found. Try again")
         app.style.opacity = "1";
-    });
-}
-fetchWeatherData();
-app.style.opacity = "1";
+      });
+  }
+  // Default city when the page loads
+  fetchWeatherData('London');
+  app.style.opacity = "1";
 

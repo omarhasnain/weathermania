@@ -43,18 +43,18 @@ form.addEventListener('submit', (e) => {
 });
 
 // function that returns a day of the week
-function dayOfTheWeek(day, month, year) {
-  const weekday = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-    ];
-  return weekday[new Date(`$(day).$(month).$(year)`).getDay()];
-};
+function dayOfTheWeek(date) {
+    const weekday = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+      ];
+    return weekday[new Date(date).getDay()];
+  };
 
 // function that fetaches and displays all the data from the Weather API
 function fetchWeatherData(cityInput) {
@@ -72,7 +72,8 @@ function fetchWeatherData(cityInput) {
       const d = parseInt(date.substr(8, 2));
       const time = date.substr(11);
 
-      dateOutput.innerHTML = `${dayOfTheWeek(d,m,y)} ${d}, ${m} ${y}`;
+      dateOutput.innerHTML = `${dayOfTheWeek(date.substr(0,10))} ${d}, ${m} ${y}`;
+    //   dateOutput.innerHTML = `${dayOfTheWeek(d,m,y)} ${d}, ${m} ${y}`;
       timeOutput.innerHTML = time;
       nameOutput.innerHTML = data.location.name;
 
@@ -112,7 +113,7 @@ function fetchWeatherData(cityInput) {
         app.style.backgroundImage = `url(./images/wallpaper/${timeOfDay}/cloudy.jpg)`;
         btn.style.background = "#fa6d1b";
         if (timeOfDay == "night") {
-          btn.style.background = "181e27";
+          btn.style.background = "#7ef8f8";
         }
 
       } else if (

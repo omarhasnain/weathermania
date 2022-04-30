@@ -159,6 +159,6 @@ function fetchWeatherData(cityInput) {
       });
   }
   // Default city when the page loads
-  fetchWeatherData('London');
+  fetchWeatherData('Chittagong');
   app.style.opacity = "1";
 
